@@ -2,10 +2,16 @@ package br.com.devjmcn.myfinanceapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val BluePrimary = Color(0xFF2196F3)
+val BluePrimaryVariant = Color(0xFF1976D2)
+val BlueSecondary = Color(0xFF03A9F4)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val BackgroundLight = Color(0xFFFFFFFF)
+val SurfaceLight = Color(0xFFF5F5F5)
+val BackgroundDark = Color(0xFF121212)
+val SurfaceDark = Color(0xFF1E1E1E)
+
+val TextPrimaryLight = Color(0xFF212121)
+val TextSecondaryLight = Color(0xFF757575)
+val TextPrimaryDark = Color(0xFFFFFFFF)
+val TextSecondaryDark = Color(0xFFBDBDBD)
