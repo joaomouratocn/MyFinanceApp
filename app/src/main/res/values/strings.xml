@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MyFinanceApp</string>
+    <!-- LOGIN SCREEN -->
+    <string name="str_sing_in">Sing In</string>
+    <string name="str_email_address">Email Address</string>
+    <string name="str_password">Password</string>
+    <string name="str_forgot_password">Forgot Password?</string>
+    <string name="str_sign_in">Sign in</string>
+    <string name="str_sign_up">Sign up</string>
+    <string name="str_image_email_ok">Image email OK</string>
+    <string name="str_image_see_password">Image see password</string>
+    <string name="str_invalid_email">Invalid Email</string>
 </resources>

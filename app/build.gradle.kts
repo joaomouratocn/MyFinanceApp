@@ -50,12 +50,21 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    //ACCOMPANIST
+    implementation(libs.google.accompanist.systemuicontroller)
+
+    //VIEW-MODEL
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
     //NAVIGATION
     implementation(libs.androidx.navigation.compose)
 
     //FIREBASE-INIT
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+
+    //GOOGLE ICONS
+    implementation(libs.androidx.material.icons.extended)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
