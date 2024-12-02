@@ -1,4 +1,4 @@
-package br.com.devjmcn.myfinanceapp.ui.commonCompose
+package br.com.devjmcn.myfinanceapp.ui.composes
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

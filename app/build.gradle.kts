@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "br.com.devjmcn.myfinanceapp"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -61,7 +61,15 @@ dependencies {
 
     //FIREBASE-INIT
     implementation(platform(libs.firebase.bom))
+
+    //FIREBASE-ANALYTICS
     implementation(libs.firebase.analytics)
+
+    //FIREBASE-AUTH
+    implementation(libs.firebase.auth)
+
+    //JBCRYPT
+    implementation(libs.mindrot.jbcrypt)
 
     //GOOGLE ICONS
     implementation(libs.androidx.material.icons.extended)

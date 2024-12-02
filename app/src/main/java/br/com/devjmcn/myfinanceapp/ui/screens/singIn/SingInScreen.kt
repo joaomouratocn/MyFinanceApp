@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.HighlightOff
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -21,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -39,10 +43,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.devjmcn.myfinanceapp.R
+import br.com.devjmcn.myfinanceapp.ui.composes.Dialog
+import br.com.devjmcn.myfinanceapp.ui.composes.StatusBarIconsColorWhite
+import br.com.devjmcn.myfinanceapp.ui.composes.TextErrorMessage
+import br.com.devjmcn.myfinanceapp.ui.composes.WaveBackground
 import br.com.devjmcn.myfinanceapp.ui.theme.MyFinanceAppTheme
-import br.com.devjmcn.myfinanceapp.ui.commonCompose.StatusBarIconsColorWhite
-import br.com.devjmcn.myfinanceapp.ui.commonCompose.TextErrorMessage
-import br.com.devjmcn.myfinanceapp.ui.commonCompose.WaveBackground
+import br.com.devjmcn.myfinanceapp.util.VerifyNetwork
 
 @Composable
 fun SingInScreen(
@@ -52,12 +58,46 @@ fun SingInScreen(
     onForgotPasswordClick: () -> Unit
 ) {
     val viewModel = viewModel<SingInViewModel>()
-
     val keyBoardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
+    var openDialog by remember { mutableStateOf(false) }
+    var isConnected by remember { mutableStateOf(true) }
+    val singIn by viewModel.goToHome.collectAsState()
+
+    LaunchedEffect(Unit) {
+        isConnected = VerifyNetwork.isInternetAvailable(context = context)
+    }
 
     Box {
         StatusBarIconsColorWhite(modifier = Modifier)
         WaveBackground(modifier = Modifier)
+
+        if (!isConnected) {
+            openDialog = true
+        }
+
+        when {
+            openDialog -> {
+                Dialog(
+                    confirmText = stringResource(R.string.str_ok),
+                    onConfirmation = {
+                        isConnected = VerifyNetwork.isInternetAvailable(context)
+                        openDialog = false
+                    },
+                    onDismissRequest = null,
+                    dialogTitle = stringResource(R.string.str_connection_error),
+                    dialogText = stringResource(R.string.str_verify_network),
+                    icon = Icons.Default.HighlightOff,
+                    iconColor = Color.Red,
+                    iconContentDescription = "Image content description"
+                )
+            }
+
+            singIn ->{
+                onSingInClick()
+            }
+        }
+
         Column(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -74,7 +114,7 @@ fun SingInScreen(
 
             val emailValue by viewModel.email.collectAsState()
             val isValidEmail by viewModel.isValidEmail.collectAsState()
-            val showEmailErrorField by viewModel.showErrorEmailField.collectAsState()
+            val emailErrorMessage by viewModel.emailErrorMessage.collectAsState()
 
             Column(
                 modifier = Modifier
@@ -98,16 +138,16 @@ fun SingInScreen(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent
                     ),
-                    isError = showEmailErrorField,
+                    isError = emailErrorMessage != "",
                     modifier = Modifier.fillMaxWidth()
                 )
                 TextErrorMessage(
-                    text = stringResource(R.string.str_invalid_email),
-                    show = showEmailErrorField
+                    text = emailErrorMessage,
                 )
             }
 
             val passValue by viewModel.password.collectAsState()
+            val passwordErrorMessage by viewModel.passwordErrorMessage.collectAsState()
 
             var seePassword by remember {
                 mutableStateOf(false)
@@ -138,6 +178,9 @@ fun SingInScreen(
                         unfocusedContainerColor = Color.Transparent
                     ),
                     modifier = Modifier.fillMaxWidth()
+                )
+                TextErrorMessage(
+                    text = passwordErrorMessage,
                 )
             }
 

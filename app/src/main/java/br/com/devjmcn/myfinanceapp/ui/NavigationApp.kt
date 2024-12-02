@@ -14,7 +14,7 @@ import br.com.devjmcn.myfinanceapp.ui.screens.singUp.SingUpScreen
 fun NavigationApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "SIGN-IN") {
+    NavHost(navController = navController, startDestination = "HOME") {
         composable("SIGN-IN") {
             SingInScreen(
                 modifier = modifier,
@@ -35,7 +35,9 @@ fun NavigationApp(modifier: Modifier = Modifier) {
         composable("FORGOT-PASSWORD"){ ForgotPasswordScreen(modifier = modifier) }
 
         composable("HOME") {
-            HomeScreen(modifier = modifier)
+            HomeScreen(modifier = modifier, logout = {
+                navController.navigate("SIGN-IN")
+            })
         }
     }
 }

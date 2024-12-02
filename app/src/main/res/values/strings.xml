@@ -10,4 +10,12 @@
     <string name="str_image_email_ok">Image email OK</string>
     <string name="str_image_see_password">Image see password</string>
     <string name="str_invalid_email">Invalid Email</string>
+
+    <!-- DIALOG -->
+    <string name="str_cancel">Cancel</string>
+
+    <!-- COMMONS -->
+    <string name="str_ok">OK</string>
+    <string name="str_connection_error">Connection Error</string>
+    <string name="str_verify_network">verify network</string>
 </resources>

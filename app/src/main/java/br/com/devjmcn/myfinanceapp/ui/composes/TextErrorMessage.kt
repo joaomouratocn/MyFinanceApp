@@ -1,4 +1,4 @@
-package br.com.devjmcn.myfinanceapp.ui.commonCompose
+package br.com.devjmcn.myfinanceapp.ui.composes
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TextErrorMessage(modifier: Modifier = Modifier, text: String, show: Boolean) {
-    if (show) {
+fun TextErrorMessage(modifier: Modifier = Modifier, text: String) {
+    if (text != "") {
         Text(
             text = text,
             color = Color.Red,
