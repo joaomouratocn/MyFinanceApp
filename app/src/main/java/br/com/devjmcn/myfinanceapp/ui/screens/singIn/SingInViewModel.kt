@@ -1,14 +1,14 @@
 package br.com.devjmcn.myfinanceapp.ui.screens.singIn
 
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
+import br.com.devjmcn.myfinanceapp.data.Repository
+import br.com.devjmcn.myfinanceapp.util.Response
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class SingInViewModel : ViewModel() {
-    private val firebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+class SingInViewModel(val repository: Repository) : ViewModel() {
 
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
@@ -27,6 +27,10 @@ class SingInViewModel : ViewModel() {
 
     private val _goToHome = MutableStateFlow(false)
     val goToHome = _goToHome.asStateFlow()
+
+    private val _load = MutableStateFlow(false)
+    val load = _load.asStateFlow()
+
 
 
     fun updateValueEmail(emailValue: String) {
@@ -49,10 +53,11 @@ class SingInViewModel : ViewModel() {
             return
         }
 
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {result ->
-            _goToHome.value = true
-        }.addOnFailureListener {result ->
-            _passwordErrorMessage.value = result.message ?: "Undefined error"
+        viewModelScope.launch{
+            _load.value = true
+            repository.singIn(email = email, password = password).collect{
+
+            }
         }
     }
 

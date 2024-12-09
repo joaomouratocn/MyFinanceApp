@@ -62,6 +62,9 @@ dependencies {
     //FIREBASE-INIT
     implementation(platform(libs.firebase.bom))
 
+    //FIREBASE-COROUTINES
+    implementation(libs.kotlinx.coroutines.play.services)
+
     //FIREBASE-ANALYTICS
     implementation(libs.firebase.analytics)
 
@@ -73,6 +76,9 @@ dependencies {
 
     //GOOGLE ICONS
     implementation(libs.androidx.material.icons.extended)
+
+    //KOIN
+    implementation(libs.koin.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

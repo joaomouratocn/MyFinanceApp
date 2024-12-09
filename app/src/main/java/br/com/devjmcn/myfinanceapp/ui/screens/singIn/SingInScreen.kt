@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.HighlightOff
 import androidx.compose.material.icons.filled.Visibility
@@ -44,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.devjmcn.myfinanceapp.R
 import br.com.devjmcn.myfinanceapp.ui.composes.Dialog
+import br.com.devjmcn.myfinanceapp.ui.composes.LoadProgressBar
 import br.com.devjmcn.myfinanceapp.ui.composes.StatusBarIconsColorWhite
 import br.com.devjmcn.myfinanceapp.ui.composes.TextErrorMessage
 import br.com.devjmcn.myfinanceapp.ui.composes.WaveBackground
@@ -63,6 +63,7 @@ fun SingInScreen(
     var openDialog by remember { mutableStateOf(false) }
     var isConnected by remember { mutableStateOf(true) }
     val singIn by viewModel.goToHome.collectAsState()
+    val showLoading by viewModel.load.collectAsState()
 
     LaunchedEffect(Unit) {
         isConnected = VerifyNetwork.isInternetAvailable(context = context)
@@ -70,10 +71,14 @@ fun SingInScreen(
 
     Box {
         StatusBarIconsColorWhite(modifier = Modifier)
-        WaveBackground(modifier = Modifier)
+        WaveBackground(modifier = Modifier.fillMaxWidth())
 
         if (!isConnected) {
             openDialog = true
+        }
+
+        if (showLoading){
+            LoadProgressBar(modifier = Modifier)
         }
 
         when {
@@ -93,7 +98,7 @@ fun SingInScreen(
                 )
             }
 
-            singIn ->{
+            singIn -> {
                 onSingInClick()
             }
         }
