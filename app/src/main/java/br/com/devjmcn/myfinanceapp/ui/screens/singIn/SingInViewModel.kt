@@ -1,9 +1,10 @@
 package br.com.devjmcn.myfinanceapp.ui.screens.singIn
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.devjmcn.myfinanceapp.data.Repository
-import br.com.devjmcn.myfinanceapp.util.Response
+import br.com.devjmcn.myfinanceapp.util.ResponseModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +33,6 @@ class SingInViewModel(val repository: Repository) : ViewModel() {
     val load = _load.asStateFlow()
 
 
-
     fun updateValueEmail(emailValue: String) {
         _isValidEmail.value = isValidEmail(emailValue)
         if (emailErrorMessage.value != "") _showErrorEmailField.value = ""
@@ -53,11 +53,20 @@ class SingInViewModel(val repository: Repository) : ViewModel() {
             return
         }
 
-        viewModelScope.launch{
-            _load.value = true
-            repository.singIn(email = email, password = password).collect{
+        if (_password.value.isEmpty()) {
+            _passwordErrorMessage.value = "Email is empty"
+            return
+        }
 
+        viewModelScope.launch {
+            _load.value = true
+            val result = repository.singIn(email = email, password = password)
+            _load.value = false
+            when (result) {
+                is ResponseModel.Success -> _goToHome.value = true
+                is ResponseModel.Error -> _passwordErrorMessage.value = result.message
             }
+
         }
     }
 

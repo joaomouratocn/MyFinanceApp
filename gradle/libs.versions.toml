@@ -3,6 +3,7 @@ accompanistSystemuicontrollerVersion = "0.36.0"
 agp = "8.7.2"
 firebaseBom = "33.6.0"
 koinAndroidVersion = "4.0.1-Beta1"
+koinAndroidxComposeVersion = "4.0.1-Beta1"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -39,6 +40,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroidVersion" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxComposeVersion" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServicesVersion" }
 mindrot-jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcryptVersion" }
 

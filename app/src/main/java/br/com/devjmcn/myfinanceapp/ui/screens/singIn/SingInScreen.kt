@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.devjmcn.myfinanceapp.R
 import br.com.devjmcn.myfinanceapp.ui.composes.Dialog
 import br.com.devjmcn.myfinanceapp.ui.composes.LoadProgressBar
@@ -49,15 +48,16 @@ import br.com.devjmcn.myfinanceapp.ui.composes.TextErrorMessage
 import br.com.devjmcn.myfinanceapp.ui.composes.WaveBackground
 import br.com.devjmcn.myfinanceapp.ui.theme.MyFinanceAppTheme
 import br.com.devjmcn.myfinanceapp.util.VerifyNetwork
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SingInScreen(
     modifier: Modifier = Modifier,
     onSingInClick: () -> Unit,
     onSignUpClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit
+    onForgotPasswordClick: () -> Unit,
+    viewModel: SingInViewModel = koinViewModel()
 ) {
-    val viewModel = viewModel<SingInViewModel>()
     val keyBoardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
     var openDialog by remember { mutableStateOf(false) }
@@ -77,7 +77,7 @@ fun SingInScreen(
             openDialog = true
         }
 
-        if (showLoading){
+        if (showLoading) {
             LoadProgressBar(modifier = Modifier)
         }
 
@@ -182,7 +182,8 @@ fun SingInScreen(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    isError = passwordErrorMessage != ""
                 )
                 TextErrorMessage(
                     text = passwordErrorMessage,
