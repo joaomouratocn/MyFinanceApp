@@ -3,7 +3,6 @@ package br.com.devjmcn.myfinanceapp.ui.screens.singIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +17,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -64,47 +65,66 @@ fun SingInScreen(
     var isConnected by remember { mutableStateOf(true) }
     val singIn by viewModel.goToHome.collectAsState()
     val showLoading by viewModel.load.collectAsState()
+    val showSnackBar by viewModel.showSnackBar.collectAsState()
+
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
 
     LaunchedEffect(Unit) {
         isConnected = VerifyNetwork.isInternetAvailable(context = context)
     }
+    StatusBarIconsColorWhite(modifier = Modifier)
 
-    Box {
-        StatusBarIconsColorWhite(modifier = Modifier)
-        WaveBackground(modifier = Modifier.fillMaxWidth())
 
-        if (!isConnected) {
+    LaunchedEffect(showSnackBar) {
+        if (showSnackBar != "") {
+            snackBarHostState.showSnackbar(showSnackBar)
+        }
+        viewModel.clearSnackBar()
+    }
+
+    when {
+        !isConnected -> {
             openDialog = true
         }
 
-        if (showLoading) {
+        showLoading -> {
             LoadProgressBar(modifier = Modifier)
         }
 
-        when {
-            openDialog -> {
-                Dialog(
-                    confirmText = stringResource(R.string.str_ok),
-                    onConfirmation = {
-                        isConnected = VerifyNetwork.isInternetAvailable(context)
-                        openDialog = false
-                    },
-                    onDismissRequest = null,
-                    dialogTitle = stringResource(R.string.str_connection_error),
-                    dialogText = stringResource(R.string.str_verify_network),
-                    icon = Icons.Default.HighlightOff,
-                    iconColor = Color.Red,
-                    iconContentDescription = "Image content description"
-                )
-            }
-
-            singIn -> {
-                onSingInClick()
-            }
+        singIn -> {
+            onSingInClick()
         }
 
+        openDialog -> {
+            Dialog(
+                confirmText = stringResource(R.string.str_ok),
+                onConfirmation = {
+                    isConnected = VerifyNetwork.isInternetAvailable(context)
+                    openDialog = false
+                },
+                onDismissRequest = null,
+                dialogTitle = stringResource(R.string.str_connection_error),
+                dialogText = stringResource(R.string.str_verify_network),
+                icon = Icons.Default.HighlightOff,
+                iconColor = Color.Red,
+                iconContentDescription = "Image content description"
+            )
+        }
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxWidth(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        }
+    ) { innerPadding ->
+        WaveBackground(modifier = Modifier.fillMaxWidth())
         Column(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -143,12 +163,14 @@ fun SingInScreen(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent
                     ),
-                    isError = emailErrorMessage != "",
+                    isError = emailErrorMessage,
                     modifier = Modifier.fillMaxWidth()
                 )
-                TextErrorMessage(
-                    text = emailErrorMessage,
-                )
+                if (emailErrorMessage) {
+                    TextErrorMessage(
+                        text = stringResource(R.string.str_invalid_email),
+                    )
+                }
             }
 
             val passValue by viewModel.password.collectAsState()
@@ -183,11 +205,13 @@ fun SingInScreen(
                         unfocusedContainerColor = Color.Transparent
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    isError = passwordErrorMessage != ""
+                    isError = passwordErrorMessage
                 )
-                TextErrorMessage(
-                    text = passwordErrorMessage,
-                )
+                if (passwordErrorMessage) {
+                    TextErrorMessage(
+                        text = stringResource(R.string.str_password_is_empty)
+                    )
+                }
             }
 
             Text(

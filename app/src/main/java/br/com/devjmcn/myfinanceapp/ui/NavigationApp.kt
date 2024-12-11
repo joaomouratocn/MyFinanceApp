@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.com.devjmcn.myfinanceapp.ui.screens.ForgotPasswordScreen
+import br.com.devjmcn.myfinanceapp.ui.screens.forgotPassword.ForgotPasswordScreen
 import br.com.devjmcn.myfinanceapp.ui.screens.home.HomeScreen
 import br.com.devjmcn.myfinanceapp.ui.screens.singIn.SingInScreen
 import br.com.devjmcn.myfinanceapp.ui.screens.singUp.SingUpScreen
@@ -28,16 +28,18 @@ fun NavigationApp(modifier: Modifier = Modifier) {
             )
         }
 
+        composable("HOME") {
+            HomeScreen(modifier = modifier, logout = {
+                navController.navigate("SIGN-IN"){
+                    popUpTo("HOME"){inclusive = true}
+                }
+            })
+        }
+
         composable("SIGN-UP") {
             SingUpScreen(modifier = modifier)
         }
 
         composable("FORGOT-PASSWORD"){ ForgotPasswordScreen(modifier = modifier) }
-
-        composable("HOME") {
-            HomeScreen(modifier = modifier, logout = {
-                navController.navigate("SIGN-IN")
-            })
-        }
     }
 }

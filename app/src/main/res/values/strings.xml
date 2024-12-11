@@ -12,6 +12,7 @@
     <string name="str_invalid_email">Invalid Email</string>
     <string name="str_connection_error">Connection Error</string>
     <string name="str_verify_network">verify network</string>
+    <string name="str_password_is_empty">Password is empty</string>
 
     <!-- DIALOG -->
     <string name="str_cancel">Cancel</string>
@@ -21,4 +22,5 @@
 
     <!-- LOADING COMPOSE -->
     <string name="str_loading">Loading…</string>
+    <string name="str_invalid_credentials">Invalid Credentials</string>
 </resources>
