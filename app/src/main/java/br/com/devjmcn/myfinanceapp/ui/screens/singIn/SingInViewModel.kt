@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.devjmcn.myfinanceapp.data.Repository
 import br.com.devjmcn.myfinanceapp.util.ResponseModel
+import br.com.devjmcn.myfinanceapp.util.isValidEmail
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -77,12 +78,5 @@ class SingInViewModel(val repository: Repository) : ViewModel() {
                 is ResponseModel.Error -> _showSnackBar.value = result.message
             }
         }
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        val emailPattern = Regex(
-            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,6}$"
-        )
-        return email.matches(emailPattern)
     }
 }

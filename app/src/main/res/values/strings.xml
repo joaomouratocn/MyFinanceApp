@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MyFinanceApp</string>
+
     <!-- LOGIN SCREEN -->
     <string name="str_sing_in">Sing In</string>
     <string name="str_email_address">Email Address</string>
@@ -14,13 +15,16 @@
     <string name="str_verify_network">verify network</string>
     <string name="str_password_is_empty">Password is empty</string>
 
-    <!-- DIALOG -->
-    <string name="str_cancel">Cancel</string>
-
     <!-- COMMONS -->
+    <string name="str_cancel">Cancel</string>
     <string name="str_ok">OK</string>
 
     <!-- LOADING COMPOSE -->
     <string name="str_loading">Loading…</string>
     <string name="str_invalid_credentials">Invalid Credentials</string>
+
+    <!-- FORGOT PASSWORD SCREEN -->
+    <string name="str_send_email">Send Email</string>
+    <string name="str_enter_your_email_address">"Enter your email address: "</string>
+    <string name="str_email">Email</string>
 </resources>
