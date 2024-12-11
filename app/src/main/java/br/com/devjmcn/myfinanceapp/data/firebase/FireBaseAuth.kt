@@ -12,6 +12,15 @@ class FireBaseAuth : Repository {
         FirebaseAuth.getInstance()
     }
 
+    override suspend fun getCurrentUser(): ResponseModel<FirebaseUser?> {
+        return try {
+            val currentUser = firebaseAuthInstance.currentUser
+            ResponseModel.Success(currentUser)
+        }catch (e: FirebaseAuthException){
+            ResponseModel.Error(e.errorCode)
+        }
+    }
+
     override suspend fun singIn(
         email: String,
         password: String

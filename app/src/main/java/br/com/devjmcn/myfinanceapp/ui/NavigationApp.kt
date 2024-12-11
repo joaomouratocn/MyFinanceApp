@@ -29,7 +29,7 @@ fun NavigationApp(modifier: Modifier = Modifier) {
         }
 
         composable("HOME") {
-            HomeScreen(modifier = modifier, logout = {
+            HomeScreen(modifier = modifier, goToSingIn = {
                 navController.navigate("SIGN-IN"){
                     popUpTo("HOME"){inclusive = true}
                 }
